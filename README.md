@@ -6,7 +6,7 @@ afim de aprimorar meus conhecemimentos em Programação Orientada à Objeto.
 - Java 17+
 - Programação Orientada à Objeto
 
-### Funcionalides
+### Funcionalidades
 - Criação de conta;
 - Acesso de conta;
 - Verificação de saldo;
