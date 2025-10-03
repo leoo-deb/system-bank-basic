@@ -74,26 +74,12 @@ public class CreateAccount {
                                     break;
                                 //Faz um saque na conta
                                 case 3:
-                                        //Verifica inicialmente se o saldo da conta nao e 0 ou menor
-                                        if (!(ac1.getAccountBagage() <= 0)) {
-                                            do {
-                                                System.out.println("Digite o valor para saque: ");
-                                                double saque = sc.nextDouble();
-                                                //Verifica se valor do saque e menor do que tem no saldo da conta,
-                                                //senao, nao havera saque
-                                                if (!(saque > ac1.getAccountBagage())) {
-                                                    wit1.withdraw(saque);
-                                                } else {
-                                                    System.out.println("Saldo atual: R$ " + ac1.getAccountBagage());
-                                                    System.out.println("ERROR: A conta nao possui saldo suficiente para a realizacao do saque.");
-                                                }
-                                                System.out.println("Deseja realizar um novo saque? [S/N]");
-                                                exi = sc.next().toUpperCase();
-                                            } while (exi.equals("S"));
-                                        } else {
-                                            System.out.println("A conta nao possui saldo suficiente.");
-                                            break;
-                                        }
+                                    do {
+                                        System.out.println("Digite o valor para saque: ");
+                                        wit1.withdraw(sc.nextDouble());
+                                        System.out.println("Deseja realizar um novo saque? [S/N]");
+                                        exi = sc.next().toUpperCase();
+                                    } while (exi.equals("S"));
                                     break;
 
                                 case 4:

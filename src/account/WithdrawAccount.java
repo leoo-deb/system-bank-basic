@@ -9,11 +9,22 @@ public class WithdrawAccount {
 
     //Metodo em que realiza uma acao de saque
     public void withdraw(double amount) {
-        if (amount > 0) {
-            account.accountBagage -= amount;
-            System.out.println("Saque realizado com sucesso! Valor atual da conta: R$ " + account.accountBagage);
-        } else {
-            System.out.println("ERROR: Valor invalido.");
+        if (account.getAccountBagage() == 0) {
+            System.out.println("ERROR: A conta nao possui saldo.");
+            return;
         }
+
+        if (amount > account.getAccountBagage()) {
+            System.out.println("ERROR: A conta nao possui saldo suficiente para realizacao do saque.");
+            return;
+        }
+
+        if (amount <= 0) {
+            System.out.println("ERROR: Valor invalido.");
+            return;
+        }
+
+        System.out.println("SUCCESS: Valor atual da conta: R$ " + account.getAccountBagage());
+        account.accountBagage -= amount;
     }
 }
