@@ -1,5 +1,9 @@
 package account;
 
+import exception.CredentialAuthenticationException;
+
+import java.util.NoSuchElementException;
+
 public class Account {
     private final String accountNumber;
     private String accountName;
@@ -24,19 +28,25 @@ public class Account {
         return accountName;
     }
 
-    public String informationAccoount() {
-        return "Nome da conta: " + accountName
-                + "\nNumero da conta: " + accountNumber
-                + "\nSaldo da conta: " + accountBagage;
-    }
+    public void login(String username, String password) throws CredentialAuthenticationException, NoSuchElementException {
+        if (!(username.equals(accountUsername) && password.equals(accountPassrword))) {
+            throw new CredentialAuthenticationException("Username/password incorrect.");
+        }
 
-    public boolean login(String username, String password) {
-        return username.equals(accountUsername) && password.equals(accountPassrword);
+        if (accountUsername.isEmpty() && accountPassrword.isEmpty()) {
+            throw new NoSuchElementException("Not account found.");
+        }
     }
 
     public void createLogin(String createUsernamer, String createPassword) {
         this.accountUsername = createUsernamer;
         this.accountPassrword = createPassword;
         this.accountName = createUsernamer.toUpperCase();
+    }
+
+    public String informationAccoount() {
+        return "Account name: " + accountName
+                + "\nAccount number: " + accountNumber
+                + "\nAccount balance: US$ " + accountBagage;
     }
 }

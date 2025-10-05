@@ -1,5 +1,7 @@
 package account;
 
+import exception.InsufficientBalanceException;
+
 public class WithdrawAccount {
     private Account account;
 
@@ -8,23 +10,16 @@ public class WithdrawAccount {
     }
 
     //Metodo em que realiza uma acao de saque
-    public void withdraw(double amount) {
-        if (account.getAccountBagage() == 0) {
-            System.out.println("ERROR: A conta nao possui saldo.");
-            return;
-        }
+    public void withdraw(double amount) throws InsufficientBalanceException, IllegalArgumentException {
 
         if (amount > account.getAccountBagage()) {
-            System.out.println("ERROR: A conta nao possui saldo suficiente para realizacao do saque.");
-            return;
+            throw new InsufficientBalanceException("Insufficient balance.");
         }
 
         if (amount <= 0) {
-            System.out.println("ERROR: Valor invalido.");
-            return;
+            throw new IllegalArgumentException("Invalid value.");
         }
 
-        System.out.println("SUCCESS: Valor atual da conta: R$ " + account.getAccountBagage());
         account.accountBagage -= amount;
     }
 }

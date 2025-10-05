@@ -1,12 +1,13 @@
-package createaccount;
-
 import account.Account;
 import account.DepositAccount;
 import account.WithdrawAccount;
+import exception.InsufficientBalanceException;
+import exception.CredentialAuthenticationException;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class CreateAccount {
+public class MainAccount {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -19,12 +20,11 @@ public class CreateAccount {
         do {
             System.out.println("""
                         ----------------------
-                        [1] Acessar conta
-                        [2] Criar conta
-                        [3] Sair
-                        ----------------------
-                        """);
-            System.out.print("Escolha uma opcao acima: ");
+                        [1] Access account
+                        [2] Create account
+                        [3] Exit
+                        ----------------------""");
+            System.out.print("Choice an option: ");
             op2 = sc.nextInt();
 
             switch (op2) {
@@ -33,72 +33,78 @@ public class CreateAccount {
                     accessUsername = sc.next();
                     System.out.print("Password: ");
                     accessPassword = sc.next();
-                    ac1.login(accessUsername, accessPassword);
-
-                    //Verificacao se o username e password fornecidos estao de
-                    // de acordo que estao no "sistema"
-                    if (ac1.login(accessUsername, accessPassword)) {
-                        System.out.println("Login efetuado com sucesso!");
-                        System.out.println("Bem vindo, " + ac1.getAccountName() + " ao System Banking");
-
-                        do {
-                            System.out.println("""
-                            ----------------------
-                            [1] Verificar saldo
-                            [2] Realizar deposito
-                            [3] Realizar saque
-                            [4] Informacoes da conta
-                            [5] Sair
-                            ----------------------
-                            """);
-                            System.out.print("Escolha uma opcao acima: ");
-                            op = sc.nextInt();
-
-                            switch (op) {
-                                //Verifica o saldo da conta
-                                case 1:
-                                        do {
-                                            System.out.println("O saldo atual da conta e: R$ " + ac1.getAccountBagage());
-                                            System.out.println("Para voltar ao inicio pressione a tecla (1).");
-                                            exi = sc.next();
-                                        } while (!exi.equals("1"));
-                                    break;
-                                //Faz um deposito na conta
-                                case 2:
-                                        do {
-                                            System.out.println("Digite o valor para deposito: ");
-                                            dep1.deposit(sc.nextDouble());
-                                            System.out.println("Deseja realizar um novo deposito? [S/N]");
-                                            exi = sc.next().toUpperCase();
-                                        } while (exi.equals("S"));
-                                    break;
-                                //Faz um saque na conta
-                                case 3:
-                                    do {
-                                        System.out.println("Digite o valor para saque: ");
-                                        wit1.withdraw(sc.nextDouble());
-                                        System.out.println("Deseja realizar um novo saque? [S/N]");
-                                        exi = sc.next().toUpperCase();
-                                    } while (exi.equals("S"));
-                                    break;
-
-                                case 4:
-                                    do {
-                                        System.out.println("----------------------");
-                                        System.out.println(ac1.informationAccoount());
-                                        System.out.println("Para voltar ao inicio pressione a tecla (1).");
-                                        exi = sc.next();
-                                    } while (!exi.equals("1"));
-                                    break;
-
-                                default:
-                                    System.out.println("Digite os numeros somente dispostos acima.");
-                            }
-                        } while (op != 5);
-
-                    } else {
-                        System.out.println("ERROR: Username/password incorretos.");
+                    try {
+                        ac1.login(accessUsername, accessPassword);
+                        System.out.println("Login successful!");
+                    } catch (CredentialAuthenticationException e) {
+                        System.out.println("ERROR: Username/password incorrect.");
+                        break;
+                    } catch (NoSuchElementException e) {
+                        System.out.println("ERROR: Not account create.");
+                        break;
                     }
+                    System.out.print("Welcome " + ac1.getAccountName() + " to the Banking System\n");
+
+                    do {
+                        System.out.println("""
+                        ----------------------
+                        [1] Check balance
+                        [2] Make deposit
+                        [3] Make withdrawal
+                        [4] Account information
+                        [5] Exit
+                        ----------------------""");
+                        System.out.print("Choice an option: ");
+                        op = sc.nextInt();
+
+                        //Verifica o saldo da conta
+                        if (op == 1) {
+                            do {
+                                System.out.println("The current account balance is: US$ " + ac1.getAccountBagage());
+                                System.out.println("To return to the beginning press the key (1).");
+                                exi = sc.next();
+                            } while (!exi.equals("1"));
+                        }
+                        //Faz um deposito na conta
+                        if (op == 2) {
+                            do {
+                                System.out.println("Enter the amount to deposit: ");
+                                try {
+                                    dep1.deposit(sc.nextDouble());
+                                    System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                } catch (IllegalArgumentException e) {
+                                    System.out.println("ERROR: No cannot negative value.");
+                                }
+                                System.out.println("Do you want to make a new deposit? [Y/N]");
+                                exi = sc.next().toUpperCase();
+                            } while (exi.equals("Y"));
+                        }
+                        //Faz um saque na conta
+                        if (op == 3) {
+                            do {
+                                System.out.println("Enter the amount to withdraw: ");
+                                try {
+                                    wit1.withdraw(sc.nextInt());
+                                    System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                } catch (InsufficientBalanceException e) {
+                                    System.out.println("ERROR: The account does not have sufficient funds.");
+                                } catch (IllegalArgumentException e) {
+                                    System.out.println("ERROR: No cannot negative value.");
+                                }
+                                System.out.println("Do you want to make a new withdraw? [Y/N]");
+                                exi = sc.next().toUpperCase();
+                            } while (exi.equals("Y"));
+                        }
+
+                        if (op == 4) {
+                            do {
+                                System.out.println("----------------------");
+                                System.out.println(ac1.informationAccoount());
+                                System.out.println("To return to the beginning press the key (1).");
+                                exi = sc.next();
+                            } while (!exi.equals("1"));
+                        }
+                    } while (op != 5);
                     break;
 
                 case 2:
@@ -111,11 +117,11 @@ public class CreateAccount {
                         System.out.println("Create password: ");
                         createPassword = sc.next();
                         ac1.createLogin(createUsername, createPassword);
-                        System.out.println("Conta criada com sucesso!");
+                        System.out.println("Account created successfully!");
                         System.out.println("----------------------");
                         System.out.println(ac1.informationAccoount());
                     } else {
-                        System.out.println("ERROR: Ja existe uma conta criada nesse sistema.");
+                        System.out.println("ERROR: There is already an account created in this system.");
                         break;
                     }
                     break;

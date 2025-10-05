@@ -1,8 +1,8 @@
 package exception;
 
-public class BalanceCheckException extends Exception {
+public class InsufficientBalanceException extends Exception {
 
-    public BalanceCheckException(String message) {
+    public InsufficientBalanceException(String message) {
         super(message);
     }
 }
