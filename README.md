@@ -1,4 +1,4 @@
-# Basic Banking System
+# Basic Banking System [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 ## 🎯 Objetivo do Projeto
 Este é um simples sistema de banco básico com poucas funcionalidades como a de um caixa eletrôncio,
