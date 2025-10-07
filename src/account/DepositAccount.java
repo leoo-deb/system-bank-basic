@@ -1,11 +1,6 @@
 package account;
 
-public class DepositAccount {
-    private Account account;
-
-    public DepositAccount(Account account) {
-        this.account = account;
-    }
+public record DepositAccount(Account account) {
 
     //Metodo em que realiza uma acao de deposito
     public void deposit(double amount) {
