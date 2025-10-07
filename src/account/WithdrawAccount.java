@@ -5,7 +5,7 @@ import exception.InsufficientBalanceException;
 public record WithdrawAccount(Account account) {
 
     //Metodo em que realiza uma acao de saque
-    public void withdraw(double amount) throws InsufficientBalanceException, IllegalArgumentException {
+    public void withdraw(double amount) throws InsufficientBalanceException {
 
         if (amount > account.getAccountBagage()) {
             throw new InsufficientBalanceException("The account does not have sufficient funds.");

@@ -34,6 +34,7 @@ public class MainAccount {
                     System.out.println("----------------------");
                     System.out.print("Username: ");
                     accessUsername = sc.next();
+
                     System.out.print("Password: ");
                     accessPassword = sc.next();
                     System.out.println("----------------------");
@@ -97,6 +98,7 @@ public class MainAccount {
                             } while (exi.equals("Y"));
                         }
 
+                        //Informacoes da conta
                         if (op == 4) {
                             do {
                                 System.out.println("----------------------");
@@ -115,9 +117,11 @@ public class MainAccount {
                         System.out.println("----------------------");
                         System.out.print("Create username: ");
                         createUsername = sc.next();
+
                         System.out.print("Create password: ");
                         createPassword = sc.next();
                         login.createLogin(createUsername, createPassword);
+
                         System.out.println("Account created successfully!");
                         System.out.println("----------------------");
                         System.out.println(ac1.informationAccount());

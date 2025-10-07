@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public record LoginAccount(Account account) {
 
-    public void accessLogin(String username, String password) throws CredentialAuthenticationException, NoSuchElementException {
+    public void accessLogin(String username, String password) throws CredentialAuthenticationException {
         if (!(username.equals(account.accountUsername) && password.equals(account.accountPassword))) {
             throw new CredentialAuthenticationException("Username/password incorrect.");
         }
@@ -15,9 +15,9 @@ public record LoginAccount(Account account) {
         }
     }
 
-    public void createLogin(String createUsername, String createPassword) {
-        this.account.accountUsername = createUsername;
+    public void createLogin(String createUsernamer, String createPassword) {
+        this.account.accountUsername = createUsernamer;
         this.account.accountPassword = createPassword;
-        this.account.accountName = createUsername.toUpperCase();
+        this.account.accountName = createUsernamer.toUpperCase();
     }
 }
