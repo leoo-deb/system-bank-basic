@@ -1,5 +1,6 @@
 import account.Account;
 import account.DepositAccount;
+import account.LoginAccount;
 import account.WithdrawAccount;
 import exception.InsufficientBalanceException;
 import exception.CredentialAuthenticationException;
@@ -14,6 +15,7 @@ public class MainAccount {
         int op, op2;
         String exi, accessUsername, accessPassword, createUsername, createPassword;
         Account ac1 = new Account();
+        LoginAccount login = new LoginAccount(ac1);
         DepositAccount dep1 = new DepositAccount(ac1);
         WithdrawAccount wit1 = new WithdrawAccount(ac1);
 
@@ -29,18 +31,17 @@ public class MainAccount {
 
             switch (op2) {
                 case 1:
+                    System.out.println("----------------------");
                     System.out.print("Username: ");
                     accessUsername = sc.next();
                     System.out.print("Password: ");
                     accessPassword = sc.next();
+                    System.out.println("----------------------");
                     try {
-                        ac1.login(accessUsername, accessPassword);
+                        login.accessLogin(accessUsername, accessPassword);
                         System.out.println("Login successful!");
-                    } catch (CredentialAuthenticationException e) {
-                        System.out.println("ERROR: Username/password incorrect.");
-                        break;
-                    } catch (NoSuchElementException e) {
-                        System.out.println("ERROR: Not account create.");
+                    } catch (CredentialAuthenticationException | NoSuchElementException e) {
+                        System.out.println("ERROR: " + e.getMessage());
                         break;
                     }
                     System.out.print("Welcome " + ac1.getAccountName() + " to the Banking System\n");
@@ -65,6 +66,7 @@ public class MainAccount {
                                 exi = sc.next();
                             } while (!exi.equals("1"));
                         }
+
                         //Faz um deposito na conta
                         if (op == 2) {
                             do {
@@ -73,12 +75,13 @@ public class MainAccount {
                                     dep1.deposit(sc.nextDouble());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
                                 } catch (IllegalArgumentException e) {
-                                    System.out.println("ERROR: No cannot negative value.");
+                                    System.out.println("ERROR: " + e.getMessage());
                                 }
                                 System.out.println("Do you want to make a new deposit? [Y/N]");
                                 exi = sc.next().toUpperCase();
                             } while (exi.equals("Y"));
                         }
+
                         //Faz um saque na conta
                         if (op == 3) {
                             do {
@@ -86,10 +89,8 @@ public class MainAccount {
                                 try {
                                     wit1.withdraw(sc.nextInt());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
-                                } catch (InsufficientBalanceException e) {
-                                    System.out.println("ERROR: The account does not have sufficient funds.");
-                                } catch (IllegalArgumentException e) {
-                                    System.out.println("ERROR: No cannot negative value.");
+                                } catch (InsufficientBalanceException | IllegalArgumentException e) {
+                                    System.out.println("ERROR: " + e.getMessage());
                                 }
                                 System.out.println("Do you want to make a new withdraw? [Y/N]");
                                 exi = sc.next().toUpperCase();
@@ -99,7 +100,7 @@ public class MainAccount {
                         if (op == 4) {
                             do {
                                 System.out.println("----------------------");
-                                System.out.println(ac1.informationAccoount());
+                                System.out.println(ac1.informationAccount());
                                 System.out.println("To return to the beginning press the key (1).");
                                 exi = sc.next();
                             } while (!exi.equals("1"));
@@ -111,15 +112,15 @@ public class MainAccount {
                     //Verifica se ja tem uma conta criada no "sistema",
                     //verificando se o metodo getAccountName() esta vazio
                     if (ac1.getAccountName().isEmpty()) {
-                        System.out.println("-------CREATE ACCOUNT-------");
-                        System.out.println("Create username: ");
+                        System.out.println("----------------------");
+                        System.out.print("Create username: ");
                         createUsername = sc.next();
-                        System.out.println("Create password: ");
+                        System.out.print("Create password: ");
                         createPassword = sc.next();
-                        ac1.createLogin(createUsername, createPassword);
+                        login.createLogin(createUsername, createPassword);
                         System.out.println("Account created successfully!");
                         System.out.println("----------------------");
-                        System.out.println(ac1.informationAccoount());
+                        System.out.println(ac1.informationAccount());
                     } else {
                         System.out.println("ERROR: There is already an account created in this system.");
                         break;
