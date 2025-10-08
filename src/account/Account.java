@@ -12,8 +12,6 @@ public class Account {
     //Construtor Principal
     public Account() {
         this.accountNumber = "000-" + NumberID++;
-        this.accountName = "";
-        this.accountBagage = 0;
     }
 
     public double getAccountBagage() {
