@@ -13,7 +13,7 @@ public class MainAccount {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int op, op2;
-        String exi, accessUsername, accessPassword, createUsername, createPassword;
+        String exi;
         Account ac1 = new Account();
         LoginAccount login = new LoginAccount(ac1);
         DepositAccount dep1 = new DepositAccount(ac1);
@@ -28,15 +28,18 @@ public class MainAccount {
                         ----------------------""");
             System.out.print("Choice an option: ");
             op2 = sc.nextInt();
+            sc.nextLine();
 
             switch (op2) {
+
+                //Acessa a conta
                 case 1:
                     System.out.println("----------------------");
                     System.out.print("Username: ");
-                    accessUsername = sc.next();
+                    String accessUsername = sc.next();
 
                     System.out.print("Password: ");
-                    accessPassword = sc.next();
+                    String accessPassword = sc.next();
                     System.out.println("----------------------");
                     try {
                         login.accessLogin(accessUsername, accessPassword);
@@ -45,7 +48,7 @@ public class MainAccount {
                         System.out.println("ERROR: " + e.getMessage());
                         break;
                     }
-                    System.out.print("Welcome " + ac1.getAccountName() + " to the Banking System\n");
+                    System.out.println("Welcome " + ac1.getAccountName() + " to the Banking System");
 
                     do {
                         System.out.println("""
@@ -58,43 +61,46 @@ public class MainAccount {
                         ----------------------""");
                         System.out.print("Choice an option: ");
                         op = sc.nextInt();
+                        sc.nextLine();
 
                         //Verifica o saldo da conta
                         if (op == 1) {
                             do {
                                 System.out.println("The current account balance is: US$ " + ac1.getAccountBagage());
-                                System.out.println("To return to the beginning press the key (1).");
-                                exi = sc.next();
-                            } while (!exi.equals("1"));
+                                System.out.print("To return to the beginning press (ENTER).");
+                                exi = sc.nextLine();
+                            } while (!exi.isBlank());
                         }
 
                         //Faz um deposito na conta
                         if (op == 2) {
                             do {
-                                System.out.println("Enter the amount to deposit: ");
+                                System.out.print("Enter the amount to deposit: ");
                                 try {
                                     dep1.deposit(sc.nextDouble());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("ERROR: " + e.getMessage());
+                                } finally {
+                                    System.out.println("Do you want to make a new deposit? [Y/N]");
+                                    exi = sc.next().toUpperCase();
                                 }
-                                System.out.println("Do you want to make a new deposit? [Y/N]");
-                                exi = sc.next().toUpperCase();
                             } while (exi.equals("Y"));
                         }
 
                         //Faz um saque na conta
                         if (op == 3) {
                             do {
-                                System.out.println("Enter the amount to withdraw: ");
+                                System.out.print("Enter the amount to withdraw: ");
                                 try {
                                     wit1.withdraw(sc.nextInt());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
                                 } catch (InsufficientBalanceException | IllegalArgumentException e) {
                                     System.out.println("ERROR: " + e.getMessage());
-                                }
+                                } finally {
                                 System.out.println("Do you want to make a new withdraw? [Y/N]");
                                 exi = sc.next().toUpperCase();
+                                }
                             } while (exi.equals("Y"));
                         }
 
@@ -103,33 +109,39 @@ public class MainAccount {
                             do {
                                 System.out.println("----------------------");
                                 System.out.println(ac1.informationAccount());
-                                System.out.println("To return to the beginning press the key (1).");
-                                exi = sc.next();
-                            } while (!exi.equals("1"));
+                                System.out.print("To return to the beginning press (ENTER).");
+                                exi = sc.nextLine();
+                            } while (!exi.isBlank());
                         }
                     } while (op != 5);
                     break;
 
+                //Criacao de conta
                 case 2:
-                    //Verifica se ja tem uma conta criada no "sistema",
-                    //verificando se o metodo getAccountName() esta vazio
-                    if (ac1.getAccountName().isEmpty()) {
+                    do {
                         System.out.println("----------------------");
+                        System.out.print("Create name: ");
+                        String createName = sc.nextLine();
+
                         System.out.print("Create username: ");
-                        createUsername = sc.next();
+                        String createUsername = sc.next();
 
                         System.out.print("Create password: ");
-                        createPassword = sc.next();
-                        login.createLogin(createUsername, createPassword);
+                        String createPassword = sc.next();
+                        sc.nextLine();
 
-                        System.out.println("Account created successfully!");
-                        System.out.println("----------------------");
-                        System.out.println(ac1.informationAccount());
-                    } else {
-                        System.out.println("ERROR: There is already an account created in this system.");
-                        break;
-                    }
-                    break;
+                        try {
+                            login.createLogin(createUsername, createPassword, createName);
+                            System.out.println("Account created successfully!");
+                            System.out.println("----------------------");
+                            System.out.println(ac1.informationAccount());
+                        } catch (CredentialAuthenticationException e) {
+                            System.out.println("ERROR: " + e.getMessage());
+                        } finally {
+                            System.out.print("To return to the beginning press (ENTER).");
+                            exi = sc.nextLine();
+                        }
+                    } while (!exi.isBlank());
             }
         } while (op2 != 3);
     }
