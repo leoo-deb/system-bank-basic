@@ -1,10 +1,6 @@
-import account.Account;
-import account.DepositAccount;
-import account.LoginAccount;
-import account.WithdrawAccount;
+import account.*;
 import exception.InsufficientBalanceException;
 import exception.CredentialAuthenticationException;
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
