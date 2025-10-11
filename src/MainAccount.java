@@ -65,8 +65,7 @@ public class MainAccount {
                         //Verifica o saldo da conta
                         if (op == 1) {
                             do {
-                                Locale locale = Locale.ENGLISH;
-                                NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
                                 System.out.println("The current account balance is: US$ " + nf.format(ac1.getAccountBagage()));
                                 System.out.print("To return to the beginning press (ENTER).");
                                 exi = sc.nextLine();
@@ -79,8 +78,7 @@ public class MainAccount {
                                 System.out.print("Enter the amount to deposit: ");
                                 try {
                                     dep1.deposit(sc.nextDouble());
-                                    Locale locale = Locale.ENGLISH;
-                                    NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                    NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
                                     System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
                                 } catch (InputMismatchException e) {
                                     System.out.println("ERROR: Enter numbers only.");
@@ -100,8 +98,7 @@ public class MainAccount {
                                 System.out.print("Enter the amount to withdraw: ");
                                 try {
                                     wit1.withdraw(sc.nextDouble());
-                                    Locale locale = Locale.ENGLISH;
-                                    NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                    NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
                                     System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
                                 } catch (InputMismatchException e) {
                                     System.out.println("ERROR: Enter numbers only.");
