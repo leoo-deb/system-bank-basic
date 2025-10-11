@@ -1,6 +1,6 @@
 import account.*;
-import exception.InsufficientBalanceException;
-import exception.CredentialAuthenticationException;
+import exception.*;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -44,8 +44,8 @@ public class MainAccount {
                         System.out.println("ERROR: " + e.getMessage());
                         break;
                     }
-                    System.out.println("Welcome " + ac1.getAccountName() + " to the Banking System");
 
+                    System.out.println("Welcome " + ac1.getAccountName() + " to the Banking System");
                     do {
                         System.out.println("""
                         ----------------------
@@ -73,8 +73,11 @@ public class MainAccount {
                             do {
                                 System.out.print("Enter the amount to deposit: ");
                                 try {
-                                    dep1.deposit(sc.nextDouble());
+                                    dep1.deposit(sc.nextInt());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                } catch (InputMismatchException e) {
+                                    System.out.println("ERROR: Enter numbers only.");
+                                    sc.nextLine();
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("ERROR: " + e.getMessage());
                                 } finally {
@@ -91,6 +94,9 @@ public class MainAccount {
                                 try {
                                     wit1.withdraw(sc.nextInt());
                                     System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                } catch (InputMismatchException e) {
+                                    System.out.println("ERROR: Enter numbers only.");
+                                    sc.nextLine();
                                 } catch (InsufficientBalanceException | IllegalArgumentException e) {
                                     System.out.println("ERROR: " + e.getMessage());
                                 } finally {
