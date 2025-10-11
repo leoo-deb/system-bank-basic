@@ -1,6 +1,9 @@
 import account.*;
 import exception.*;
+
+import java.text.NumberFormat;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -62,7 +65,9 @@ public class MainAccount {
                         //Verifica o saldo da conta
                         if (op == 1) {
                             do {
-                                System.out.println("The current account balance is: US$ " + ac1.getAccountBagage());
+                                Locale locale = Locale.ENGLISH;
+                                NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                System.out.println("The current account balance is: US$ " + nf.format(ac1.getAccountBagage()));
                                 System.out.print("To return to the beginning press (ENTER).");
                                 exi = sc.nextLine();
                             } while (!exi.isBlank());
@@ -73,8 +78,10 @@ public class MainAccount {
                             do {
                                 System.out.print("Enter the amount to deposit: ");
                                 try {
-                                    dep1.deposit(sc.nextInt());
-                                    System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                    dep1.deposit(sc.nextDouble());
+                                    Locale locale = Locale.ENGLISH;
+                                    NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                    System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
                                 } catch (InputMismatchException e) {
                                     System.out.println("ERROR: Enter numbers only.");
                                     sc.nextLine();
@@ -92,8 +99,10 @@ public class MainAccount {
                             do {
                                 System.out.print("Enter the amount to withdraw: ");
                                 try {
-                                    wit1.withdraw(sc.nextInt());
-                                    System.out.println("SUCCESS: current account value: US$ " + ac1.getAccountBagage());
+                                    wit1.withdraw(sc.nextDouble());
+                                    Locale locale = Locale.ENGLISH;
+                                    NumberFormat nf = NumberFormat.getNumberInstance(locale);
+                                    System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
                                 } catch (InputMismatchException e) {
                                     System.out.println("ERROR: Enter numbers only.");
                                     sc.nextLine();

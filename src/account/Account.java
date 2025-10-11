@@ -1,5 +1,8 @@
 package account;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Account {
     private final String accountNumber;
     protected String accountName;
@@ -23,8 +26,11 @@ public class Account {
     }
 
     public String informationAccount() {
+        Locale locale = Locale.ENGLISH;
+        NumberFormat nf = NumberFormat.getNumberInstance(locale);
+
         return "Account name: " + accountName
                 + "\nAccount number: " + accountNumber
-                + "\nAccount balance: US$ " + accountBagage;
+                + "\nAccount balance: US$ " + nf.format(accountBagage);
     }
 }
