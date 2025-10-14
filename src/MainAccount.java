@@ -11,7 +11,7 @@ public class MainAccount {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int op, op2 = 0;
+        int op, op2;
         String exi;
         Account ac1 = new Account();
         LoginAccount login = new LoginAccount(ac1);
@@ -32,22 +32,10 @@ public class MainAccount {
             switch (op2) {
                 //Acessa a conta
                 case 1:
-                    System.out.println("----------------------");
-                    System.out.print("Username: ");
-                    String accessUsername = sc.next();
-
-                    System.out.print("Password: ");
-                    String accessPassword = sc.next();
-                    System.out.println("----------------------");
-                    try {
-                        login.accessLogin(accessUsername, accessPassword);
-                        System.out.println("Login successful!");
-                    } catch (CredentialAuthenticationException | NoSuchElementException e) {
-                        System.out.println("ERROR: " + e.getMessage());
+                    if (login.accessLogin()) {
                         break;
                     }
 
-                    System.out.println("Welcome " + ac1.getAccountName() + " to the Banking System");
                     do {
                         System.out.println("""
                         ----------------------
@@ -74,40 +62,18 @@ public class MainAccount {
                         //Faz um deposito na conta
                         if (op == 2) {
                             do {
-                                System.out.print("Enter the amount to deposit: ");
-                                try {
-                                    dep1.deposit(sc.nextDouble());
-                                    NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
-                                    System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
-                                } catch (InputMismatchException e) {
-                                    System.out.println("ERROR: Enter numbers only.");
-                                    sc.nextLine();
-                                } catch (IllegalArgumentException e) {
-                                    System.out.println("ERROR: " + e.getMessage());
-                                } finally {
-                                    System.out.println("Do you want to make a new deposit? [Y/N]");
-                                    exi = sc.next().toUpperCase();
-                                }
+                                dep1.deposit();
+                                System.out.println("Do you want to make a new deposit? [Y/N]");
+                                exi = sc.next().toUpperCase();
                             } while (exi.equals("Y"));
                         }
 
                         //Faz um saque na conta
                         if (op == 3) {
                             do {
-                                System.out.print("Enter the amount to withdraw: ");
-                                try {
-                                    wit1.withdraw(sc.nextDouble());
-                                    NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
-                                    System.out.println("SUCCESS: current account value: US$ " + nf.format(ac1.getAccountBagage()));
-                                } catch (InputMismatchException e) {
-                                    System.out.println("ERROR: Enter numbers only.");
-                                    sc.nextLine();
-                                } catch (InsufficientBalanceException | IllegalArgumentException e) {
-                                    System.out.println("ERROR: " + e.getMessage());
-                                } finally {
+                                wit1.withdraw();
                                 System.out.println("Do you want to make a new withdraw? [Y/N]");
                                 exi = sc.next().toUpperCase();
-                                }
                             } while (exi.equals("Y"));
                         }
 
@@ -125,24 +91,8 @@ public class MainAccount {
 
                 //Criacao de conta
                 case 2:
-                    System.out.println("----------------------");
-                    System.out.print("Create name: ");
-                    String createName = sc.nextLine();
-
-                    System.out.print("Create username: ");
-                    String createUsername = sc.next();
-
-                    System.out.print("Create password: ");
-                    String createPassword = sc.next();
-                    sc.nextLine();
-
-                    try {
-                        login.createLogin(createUsername, createPassword, createName);
-                        System.out.println("Account created successfully!");
-                        System.out.println("----------------------");
-                        System.out.println(ac1.informationAccount());
-                    } catch (CredentialAuthenticationException e) {
-                        System.out.println("ERROR: " + e.getMessage());
+                    if (login.createLogin()) {
+                        break;
                     }
             }
         } while (op2 != 3);
