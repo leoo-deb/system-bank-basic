@@ -9,10 +9,10 @@ import java.util.NoSuchElementException;
 
 public class Account {
     private final String accountNumber;
-    protected String accountName;
-    protected double accountBagage;
-    protected String accountUsername;
-    protected String accountPassword;
+    private String accountName;
+    private double accountBagage;
+    private String accountUsername;
+    private String accountPassword;
 
     private static int NumberID = 1;
 

@@ -16,6 +16,8 @@ public record LoginAccount(Account account) {
         System.out.print("Password: ");
         String accessPassword = sc.next();
         System.out.println("----------------------");
+        sc.nextLine();
+
         try {
             account.accessLogin(accessUsername, accessPassword);
             System.out.println("Login successful!");
