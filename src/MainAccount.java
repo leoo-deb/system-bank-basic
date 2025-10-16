@@ -1,22 +1,13 @@
 import account.*;
-import exception.*;
-
-import java.text.NumberFormat;
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class MainAccount {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int op, op2;
-        String exi;
+        int op2;
         Account ac1 = new Account();
         LoginAccount login = new LoginAccount(ac1);
-        DepositAccount dep1 = new DepositAccount(ac1);
-        WithdrawAccount wit1 = new WithdrawAccount(ac1);
 
         do {
             System.out.println("""
@@ -35,58 +26,8 @@ public class MainAccount {
                     if (login.accessLogin()) {
                         break;
                     }
-
-                    do {
-                        System.out.println("""
-                        ----------------------
-                        [1] Check balance
-                        [2] Make deposit
-                        [3] Make withdrawal
-                        [4] Account information
-                        [5] Exit
-                        ----------------------""");
-                        System.out.print("Choice an option: ");
-                        op = sc.nextInt();
-                        sc.nextLine();
-
-                        //Verifica o saldo da conta
-                        if (op == 1) {
-                            do {
-                                NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
-                                System.out.println("The current account balance is: US$ " + nf.format(ac1.getAccountBagage()));
-                                System.out.print("To return to the beginning press (ENTER).");
-                                exi = sc.nextLine();
-                            } while (!exi.isBlank());
-                        }
-
-                        //Faz um deposito na conta
-                        if (op == 2) {
-                            do {
-                                dep1.deposit();
-                                System.out.println("Do you want to make a new deposit? [Y/N]");
-                                exi = sc.next().toUpperCase();
-                            } while (exi.equals("Y"));
-                        }
-
-                        //Faz um saque na conta
-                        if (op == 3) {
-                            do {
-                                wit1.withdraw();
-                                System.out.println("Do you want to make a new withdraw? [Y/N]");
-                                exi = sc.next().toUpperCase();
-                            } while (exi.equals("Y"));
-                        }
-
-                        //Informacoes da conta
-                        if (op == 4) {
-                            do {
-                                System.out.println("----------------------");
-                                System.out.println(ac1.informationAccount());
-                                System.out.print("To return to the beginning press (ENTER).");
-                                exi = sc.nextLine();
-                            } while (!exi.isBlank());
-                        }
-                    } while (op != 5);
+                    MainPainelAccount main = new MainPainelAccount(ac1);
+                    main.mainPane();
                     break;
 
                 //Criacao de conta

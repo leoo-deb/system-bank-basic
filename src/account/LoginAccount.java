@@ -4,8 +4,13 @@ import exception.CredentialAuthenticationException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public record LoginAccount(Account account) {
-    public static Scanner sc = new Scanner(System.in);
+public class LoginAccount {
+    private final Account account;
+    public Scanner sc = new Scanner(System.in);
+
+    public LoginAccount(Account account) {
+        this.account = account;
+    }
 
     //Metodo que acessa a conta
     public boolean accessLogin() {
@@ -41,6 +46,17 @@ public record LoginAccount(Account account) {
         System.out.print("Create password: ");
         String createPassword = sc.next();
         sc.nextLine();
+
+        do {
+            System.out.print("Confirm password: ");
+            String confirmPassword = sc.next();
+            sc.nextLine();
+
+            if (confirmPassword.equals(createPassword)) {
+                break;
+            }
+            System.out.println("The password entered must match the one created.");
+        } while (true);
         System.out.println("----------------------");
 
         try {
